@@ -198,7 +198,86 @@ app.delete('/teams/:id', async (req, res) => {
 });
 
 
+// --------
 
+ app.get('/price', async (req, res) =>
+    {
+        const query = {}
+        const cursour = priceCollection.find(query)
+        const priceData = await cursour.toArray();
+        res.send(priceData)
+        })
+
+    app.get('/price/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const prices= await priceCollection.findOne(query);
+        res.send(prices);
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch Prices' });
+    }
+});
+      app.post("/price", async (req, res) => {
+        try {
+            const data = req.body
+
+          const result = await priceCollection.insertOne(data)
+          console.log(result)
+          res.status(200).json({
+              data:result
+          })
+
+        } catch (error) {
+          console.log(error)
+        }
+      })
+app.patch('/price/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({ error: 'Invalid ID format' });
+        }
+
+        const filter = { _id: new ObjectId(id) };
+        const updateData = req.body;
+
+        const updateDoc = {
+            $set: updateData
+        };
+
+        const result = await priceCollection.updateOne(filter, updateDoc);
+
+        if (result.matchedCount === 0) {
+            return res.status(404).send({ error: 'Team Data not found' });
+        }
+
+        res.send({
+            message: 'Price Data updated successfully',
+            result
+        });
+
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to update Prices' });
+    }
+});
+app.delete('/price/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+
+        const result = await priceCollection.deleteOne(query);
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ error: 'Price not found' });
+        }
+
+        res.send({ message: 'Price Data deleted successfully', result });
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to delete Price' });
+    }
+});
 
 
 

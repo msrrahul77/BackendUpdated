@@ -278,7 +278,11 @@ app.delete('/price/:id', async (req, res) => {
         res.status(500).send({ error: 'Failed to delete Price' });
     }
 });
-
+      app.get("/", (req, res) => {
+          res.status(200).json({
+        message:"Server Running"
+    })
+})
 
 
 app.listen(port, () => {

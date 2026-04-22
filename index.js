@@ -39,6 +39,7 @@ async function run() {
       const heroCollection = await client.db("dillBaz").collection('hero')
       const aboutCollection = await client.db("dillBaz").collection('about')
       const workCollection = await client.db("dillBaz").collection('work')
+      const workCollection1 = await client.db("dillBaz").collection('work1')
 
 
    app.get('/work', async (req, res) =>

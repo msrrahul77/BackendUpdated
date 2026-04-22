@@ -106,7 +106,7 @@ GET /testimonials
 https://backend-updated-topaz.vercel.app/testimonials
 
 
-### ➕ Add Testimonials Member
+# 👥 Slide show API
 
 POST /slideshow
 https://backend-updated-topaz.vercel.app/slideshowData

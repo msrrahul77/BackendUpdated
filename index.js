@@ -30,6 +30,7 @@ async function run() {
       const serviceCollection = await client.db("dillBaz").collection('services')
 
     const priceCollection = await client.db("dillBaz").collection('prices')
+      const teamCollection1 = await client.db("dillBaz").collection('teams1')
 
       const teamCollection = await client.db("dillBaz").collection('teams')
     // -----

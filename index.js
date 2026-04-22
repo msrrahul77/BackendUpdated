@@ -29,13 +29,191 @@ async function run() {
 
       const serviceCollection = await client.db("dillBaz").collection('services')
 
-
-
-
     const priceCollection = await client.db("dillBaz").collection('prices')
 
       const teamCollection = await client.db("dillBaz").collection('teams')
-    app.get('/services', async (req, res) =>
+    // -----
+          const slideShowDataCollection = await client.db("dillBaz").collection('slideShow')
+          const testimonialCollection= await client.db("dillBaz").collection('testimonials')
+
+
+
+
+   app.get('/testimonials', async (req, res) =>
+    {
+        const query = {}
+        const cursour = testimonialCollection.find(query)
+        const skillData = await cursour.toArray();
+        res.send(skillData)
+        })
+
+    app.get('/testimonials/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const service = await testimonialCollection.findOne(query);
+        res.send(service);
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch service' });
+    }
+});
+      app.post("/testimonials", async (req, res) => {
+        try {
+            const data = req.body
+
+          const result = await testimonialCollection.insertOne(data)
+          console.log(result)
+          res.status(200).json({
+              data:result
+          })
+
+        } catch (error) {
+          console.log(error)
+        }
+      })
+app.patch('/testimonials/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({ error: 'Invalid ID format' });
+        }
+
+        const filter = { _id: new ObjectId(id) };
+        const updateData = req.body;
+
+        const updateDoc = {
+            $set: updateData
+        };
+
+        const result = await testimonialCollection.updateOne(filter, updateDoc);
+
+        if (result.matchedCount === 0) {
+            return res.status(404).send({ error: 'SlideShownot found' });
+        }
+
+        res.send({
+            message: 'updated successfully',
+            result
+        });
+
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to update service' });
+    }
+});
+app.delete('/testimonials/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+
+        const result = await testimonialCollection.deleteOne(query);
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ error: 'Service not found' });
+        }
+
+        res.send({ message: 'Slide Show deleted successfully', result });
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to delete service' });
+    }
+});
+
+
+   app.get('/slideshowData', async (req, res) =>
+    {
+        const query = {}
+        const cursour = slideShowDataCollection.find(query)
+        const skillData = await cursour.toArray();
+        res.send(skillData)
+        })
+
+    app.get('/slideshowData/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const service = await slideShowDataCollection.findOne(query);
+        res.send(service);
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch service' });
+    }
+});
+      app.post("/slideshowData", async (req, res) => {
+        try {
+            const data = req.body
+
+          const result = await slideShowDataCollection.insertOne(data)
+          console.log(result)
+          res.status(200).json({
+              data:result
+          })
+
+        } catch (error) {
+          console.log(error)
+        }
+      })
+app.patch('/slideshowData/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({ error: 'Invalid ID format' });
+        }
+
+        const filter = { _id: new ObjectId(id) };
+        const updateData = req.body;
+
+        const updateDoc = {
+            $set: updateData
+        };
+
+        const result = await slideShowDataCollection.updateOne(filter, updateDoc);
+
+        if (result.matchedCount === 0) {
+            return res.status(404).send({ error: 'SlideShownot found' });
+        }
+
+        res.send({
+            message: 'updated successfully',
+            result
+        });
+
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to update service' });
+    }
+});
+app.delete('/slideshowData/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+
+        const result = await slideShowDataCollection.deleteOne(query);
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ error: 'Service not found' });
+        }
+
+        res.send({ message: 'Slide Show deleted successfully', result });
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to delete service' });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //----
+      app.get('/services', async (req, res) =>
     {
         const query = {}
         const cursour = serviceCollection.find(query)
@@ -280,7 +458,7 @@ app.delete('/price/:id', async (req, res) => {
 });
       app.get("/", (req, res) => {
           res.status(200).json({
-        message:"Server Running"
+        message:"Server Running",
     })
 })
 

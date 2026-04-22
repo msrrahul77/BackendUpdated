@@ -98,4 +98,23 @@ https://backend-updated-topaz.vercel.app/teams/:teamId
 
 
 ---
+# 👥 Testimonials API
+
+### 📖 Get All Team Members
+
+GET /testimonials
+https://backend-updated-topaz.vercel.app/testimonials
+
+
+### ➕ Add Testimonials Member
+
+POST /slideshow
+https://backend-updated-topaz.vercel.app/slideshowData
+### ➕ Add Slide Show
+
+POST /testimonials
+https://backend-updated-topaz.vercel.app/slideshowData
+
+
+
 
